@@ -34,11 +34,6 @@ class Response:
     def __len__(self):
         return self.max - self.base
 
-    def __add__(self, addition):
-        self.period += addition
-
-    def __sub__(self, sub):
-        self.period -= sub
 
 class Validations:
     def __init__(self, validation_q_codes, response_data):
