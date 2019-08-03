@@ -5,6 +5,6 @@ def test_grab_responses():
     print(resp["responses"])
     validation_q_codes = ["124", "432"]
     valids = dummy_data.Validations(validation_q_codes, resp)
-    assert valids.grab_responses() == [8967, 386]
+    assert valids.grab_responses() == [{"642": 4667}, {"124": 385}, {"432": 3708}]
 
 
