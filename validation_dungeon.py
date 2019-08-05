@@ -51,13 +51,25 @@ class ValidationDungeon(response_factory.ContributorResponse):
         for q_code in derived_q_codes:
             validation_sum += contributor["responses"][q_code]["response"]
 
+        largest_value = self.find_largest_for_qvdq(contributor)
+
         if validation_sum > int(derived_response):
             diff = int(derived_response) - validation_sum
-            contributor["responses"][derived_q_codes[0]]["response"] += diff
+            largest_value += diff
         elif int(derived_response) > validation_sum:
             diff = int(derived_response) - validation_sum
-            contributor["responses"][derived_q_codes[0]]["response"] += diff
+            largest_value += diff
         return contributor 
-
+    
+    def find_largest_for_qvdq(self, contributor):
+        '''
+        find the largest value in the derived qcode set
+        '''
+        derived_list = self.form["validations"]["QVDQ"]["derived_q_codes"]
+        current_largest = contributor["responses"][derived_list[0]]["response"]
+        for i in derived_list[1:]:
+            if int(contributor["responses"][i]["response"]) > int(current_largest):
+                current_largest = contributor["responses"][i]["response"]
+        return current_largest
 
         

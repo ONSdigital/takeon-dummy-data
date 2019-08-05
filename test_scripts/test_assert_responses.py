@@ -30,9 +30,9 @@ def test_make_qvdq_pass_smaller_sum():
 
     data = "/home/ryan/question_data.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)        
-    contributor = {"responses":{"Q204": {"response": 1200}, "Q201": {"response": 388}, "Q202": {"response": 400}, "Q203": {"response": 400}}}
+    contributor = {"responses":{"Q204": {"response": 1200}, "Q201": {"response": 388}, "Q202": {"response": 401}, "Q203": {"response": 399}}}
     # Notice that 400 + 388 + 400 = 1188 != 1200
-    assert validations.make_qvdq_pass(contributor, "Q204") == {"responses":{"Q204": {"response": 1200}, "Q201": {"response": 400}, "Q202": {"response": 400}, "Q203": {"response": 400}}}
+    assert validations.make_qvdq_pass(contributor, "Q204") == {"responses":{"Q204": {"response": 1200}, "Q201": {"response": 388}, "Q202": {"response": 413}, "Q203": {"response": 399}}}
 
 def test_discover_validations():
 
@@ -50,12 +50,28 @@ def test_check_failure_status():
                  'period': 202012,
                  'reference': 1,
                  'responses': {'Q146': {'response': 442 },
-                              'Q201': {'response': 400},
+                              'Q201': {'response': 500},
                               'Q202': {'response': 388},
                               'Q203': {'response': 400},
                               'Q204': {'response': 1200, 'should_fail': False}},
                 'survey': '001'}
 
 
-    assert validations.check_should_fail_status(contributor)["responses"] == {"responses":{"Q204": {"response": 1200, "should_fail": False}, "Q201": {"response": 400}, "Q202": {"response": 400}, "Q203": {"response": 400}}}
+    assert validations.check_should_fail_status(contributor)["responses"] == {"responses":{"Q204": {"response": 1200, "should_fail": False}, "Q201": {"response": 412}, "Q202": {"response": 388}, "Q203": {"response": 400}}}
 
+
+def test_find_largest():
+    data = "/home/ryan/question_data.json"
+    validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
+
+    contributor = {'form_id': '001',
+                 'period': 202012,
+                 'reference': 1,
+                 'responses': {'Q146': {'response': 442 },
+                              'Q201': {'response': 400},
+                              'Q202': {'response': 388},
+                              'Q203': {'response': 500},
+                              'Q204': {'response': 1200, 'should_fail': False}},
+                'survey': '001'}
+
+    assert validations.find_largest_for_qvdq(contributor) == 500
