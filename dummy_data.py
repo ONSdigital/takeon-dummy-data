@@ -64,10 +64,11 @@ class Validations:
                     validation_sum += j[i]
                 except KeyError:
                     pass
-        if validation_sum != int(derived_response) and validation_sum > int(derived_response):
+
+        if validation_sum > int(derived_response):
             diff = int(derived_response) - validation_sum
             responses[1][compound_responses[0]] += diff
-        elif validation_sum != int(derived_response) and int(derived_response) > validation_sum:
+        elif int(derived_response) > validation_sum:
             diff = int(derived_response) - validation_sum
             responses[1][compound_responses[0]] += diff
         return responses
