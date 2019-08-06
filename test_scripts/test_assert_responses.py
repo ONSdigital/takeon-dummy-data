@@ -1,8 +1,6 @@
-from .. import dummy_data
 from .. import validation_dungeon
 
-data = dummy_data.Response("202012", "999", "001", ["Q204", "Q201", "Q202", "Q203", "Q146"],"12345678",0).build_contributor()
-
+'''
 def test_assert_qvdq_larger_sum():
     # 4 randomly generated integers in the range [0, 9999] will almost certainly fail
     # We need to assert that some pass validation. We do this here, if should_fail is True,
@@ -17,7 +15,7 @@ def test_assert_qvdq_larger_sum():
     validation_schema = [{ "primary_q_codes": ["Q201", "Q202", "Q203"], "derived_q_code": "Q204", "formula": "Q201 + Q202 - Q203"}]
     asserted_valids = validations.assert_qvdq_pass(responses, validation_schema[0])
     assert asserted_valids == [{"Q204": 1200}, {"Q201": 388}, {"Q202": 412}, {"Q203": 400}]
-
+'''
 
 def test_make_qvdq_pass_smaller_sum():
 
@@ -74,4 +72,24 @@ def test_find_largest():
                               'Q204': {'response': 1200, 'should_fail': False}},
                 'survey': '001'}
 
-    assert validations.find_largest_for_qvdq(contributor) == (500, "Q203") 
+    assert validations.find_largest_for_qvdq(contributor) == (500, "Q203")
+
+def test_make_vp_pass():
+    data = "/home/ryan/question_data.json"
+    validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
+
+    contributor = {'form_id': '001',
+                 'period': 202012,
+                 'reference': 1,
+                 'responses': {'Q146': {'response': 442, "should_fail": False },
+                              'Q201': {'response': 400},
+                              'Q202': {'response': 388},
+                              'Q203': {'response': 500},
+                              'Q204': {'response': 1200, 'should_fail': False}},
+                'survey': '001'}
+    assert validations.make_vp_pass(contributor, "Q146")["responses"] ==  {'Q146': {'response': "", "should_fail": False },
+                            'Q201': {'response': 400},
+                              'Q202': {'response': 388},
+                              'Q203': {'response': 500},
+                              'Q204': {'response': 1200, 'should_fail': False}}
+

@@ -29,6 +29,9 @@ class ValidationDungeon(response_factory.ContributorResponse):
             if rule == "QVDQ":
                 print("Running QVDQ")
                 return self.make_qvdq_pass(contributor, question)
+            if rule == "VP":
+                print("Running VP")
+                return self.make_vp_pass(contributor, question)
 
     def discover_validations(self, q_code):
         '''
@@ -42,6 +45,11 @@ class ValidationDungeon(response_factory.ContributorResponse):
             if self.validations[validation_name]["primary_q_code"] == q_code:
                 validations[q_code].append(validation_name)
         return validations
+
+    def make_vp_pass(self, contributor, q_code):
+        primary_q_code = contributor["responses"][q_code]["response"]
+        contributor["responses"][q_code]["response"] = ""
+        return contributor
 
     def make_qvdq_pass(self, contributor, q_code):
         derived_response = contributor["responses"][q_code]["response"]
@@ -57,6 +65,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
             diff = int(derived_response) - validation_sum
             contributor["responses"][largest_value[1]]["response"] += diff
         return contributor 
+
     
     def find_largest_for_qvdq(self, contributor):
         '''

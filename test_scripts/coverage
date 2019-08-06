@@ -2,30 +2,45 @@
 platform linux -- Python 3.6.8, pytest-5.0.1, py-1.8.0, pluggy-0.12.0
 rootdir: /home/ryan/Documents/project-repos/takeon/takeon_dummy_data
 plugins: cov-2.7.1
-collected 10 items
+collected 13 items
 
-test_scripts/test_assert_responses.py .....                              [ 50%]
-test_scripts/test_build_dummy_data.py ..                                 [ 70%]
-test_scripts/test_build_sum.py .                                         [ 80%]
-test_scripts/test_grab_responses.py .                                    [ 90%]
-test_scripts/test_previous_period.py .                                   [100%]
+test_scripts/test_assert_responses.py .....                              [ 38%]
+test_scripts/test_build_dummy_data.py ..                                 [ 53%]
+test_scripts/test_build_sum.py .                                         [ 61%]
+test_scripts/test_previous_period.py ...F.                               [100%]
+
+=================================== FAILURES ===================================
+____________________________ test_decriment_january ____________________________
+
+    def test_decriment_january():
+        data = "/home/ryan/question_data.json"
+        previous = previous_periods.PreviousPeriods(data, 1000, 1001, 202001)
+>       assert previous.decriment() == "201912"
+E       AssertionError: assert '202000' == '201912'
+E         - 202000
+E         + 201912
+
+test_scripts/test_previous_period.py:21: AssertionError
+----------------------------- Captured stdout call -----------------------------
+period ratio: 0.08333333333333333
+0
+new year: 2020
+new month: 00
+new period: 202000
 
 ----------- coverage: platform linux, python 3.6.8-final-0 -----------
 Name                                    Stmts   Miss  Cover
 -----------------------------------------------------------
 __init__.py                                 0      0   100%
-dummy_data.py                              56     12    79%
-previous_periods.py                        16     10    38%
+previous_periods.py                        30      4    87%
 response_factory.py                        36      6    83%
 test_scripts/__init__.py                    0      0   100%
-test_scripts/test_assert_responses.py      29      0   100%
+test_scripts/test_assert_responses.py      25      0   100%
 test_scripts/test_build_dummy_data.py      13      0   100%
 test_scripts/test_build_sum.py              6      0   100%
-test_scripts/test_grab_responses.py         7      0   100%
-test_scripts/test_previous_period.py        5      0   100%
-validation_dungeon.py                      56      3    95%
+test_scripts/test_previous_period.py       21      0   100%
+validation_dungeon.py                      63      6    90%
 -----------------------------------------------------------
-TOTAL                                     224     31    86%
+TOTAL                                     194     16    92%
 
-
-========================== 10 passed in 0.06 seconds ===========================
+===================== 1 failed, 12 passed in 0.08 seconds ======================
