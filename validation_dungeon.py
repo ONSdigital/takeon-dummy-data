@@ -46,19 +46,16 @@ class ValidationDungeon(response_factory.ContributorResponse):
     def make_qvdq_pass(self, contributor, q_code):
         derived_response = contributor["responses"][q_code]["response"]
         derived_q_codes = self.form["validations"]["QVDQ"]["derived_q_codes"]
-        validation_sum = 0
-
-        for q_code in derived_q_codes:
-            validation_sum += contributor["responses"][q_code]["response"]
+        validation_sum = eval(self.build_sum(contributor, "QVDQ"))
 
         largest_value = self.find_largest_for_qvdq(contributor)
 
         if validation_sum > int(derived_response):
             diff = int(derived_response) - validation_sum
-            largest_value += diff
+            contributor["responses"][largest_value[1]]["response"] += diff
         elif int(derived_response) > validation_sum:
             diff = int(derived_response) - validation_sum
-            largest_value += diff
+            contributor["responses"][largest_value[1]]["response"] += diff
         return contributor 
     
     def find_largest_for_qvdq(self, contributor):
@@ -66,10 +63,22 @@ class ValidationDungeon(response_factory.ContributorResponse):
         find the largest value in the derived qcode set
         '''
         derived_list = self.form["validations"]["QVDQ"]["derived_q_codes"]
-        current_largest = contributor["responses"][derived_list[0]]["response"]
+        current_largest = (contributor["responses"][derived_list[0]]["response"], derived_list[0])
         for i in derived_list[1:]:
-            if int(contributor["responses"][i]["response"]) > int(current_largest):
-                current_largest = contributor["responses"][i]["response"]
+            if int(contributor["responses"][i]["response"]) > int(current_largest[0]):
+                current_largest = (contributor["responses"][i]["response"], i)
         return current_largest
+
+    def build_sum(self, contributor, rule):
+        formula = self.form["validations"][rule]["formula"]
+        formula_atoms = formula.split(" ")
+        formula_string = ""
+        print(contributor)
+        for i in formula_atoms:
+            if i in ("+", "-", "!="):
+                formula_string += i
+            else:
+                formula_string += str(contributor["responses"][i]["response"])
+        return formula_string
 
         

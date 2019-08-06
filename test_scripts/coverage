@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.6.8, pytest-5.0.1, py-1.8.0, pluggy-0.12.0
+rootdir: /home/ryan/Documents/project-repos/takeon/takeon_dummy_data
+plugins: cov-2.7.1
+collected 10 items
+
+test_scripts/test_assert_responses.py .....                              [ 50%]
+test_scripts/test_build_dummy_data.py ..                                 [ 70%]
+test_scripts/test_build_sum.py .                                         [ 80%]
+test_scripts/test_grab_responses.py .                                    [ 90%]
+test_scripts/test_previous_period.py .                                   [100%]
+
+----------- coverage: platform linux, python 3.6.8-final-0 -----------
+Name                                    Stmts   Miss  Cover
+-----------------------------------------------------------
+__init__.py                                 0      0   100%
+dummy_data.py                              56     12    79%
+previous_periods.py                        16     10    38%
+response_factory.py                        36      6    83%
+test_scripts/__init__.py                    0      0   100%
+test_scripts/test_assert_responses.py      29      0   100%
+test_scripts/test_build_dummy_data.py      13      0   100%
+test_scripts/test_build_sum.py              6      0   100%
+test_scripts/test_grab_responses.py         7      0   100%
+test_scripts/test_previous_period.py        5      0   100%
+validation_dungeon.py                      56      3    95%
+-----------------------------------------------------------
+TOTAL                                     224     31    86%
+
+
+========================== 10 passed in 0.06 seconds ===========================
