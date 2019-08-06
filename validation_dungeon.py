@@ -11,11 +11,11 @@ class ValidationDungeon(response_factory.ContributorResponse):
             print(contributor["responses"][question])
             try:
                 if contributor["responses"][question]["should_fail"] in (False, "False"):
-                    return self.assert_pass(contributor, question)
-                return contributor
+                     contributor["responses"][question]["response"] = self.assert_pass(contributor, question)["responses"][question]["response"]
             except KeyError as e:
                 print("{} does not have should_fail attribute".format(question))
                 continue
+        return contributor
 
     def assert_pass(self, contributor, question):
         '''
