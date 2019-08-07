@@ -46,6 +46,10 @@ class ValidationDungeon(response_factory.ContributorResponse):
                 validations[q_code].append(validation_name)
         return validations
 
+    def make_popm_pass(self, contributor, q_code):
+        current_period = self.form["validation"]["POPM"]["current_period"]
+        previous_period = self.form["validation"]["POPM"]["previous_period"]
+
     def make_vp_pass(self, contributor, q_code):
         primary_q_code = contributor["responses"][q_code]["response"]
         contributor["responses"][q_code]["response"] = ""
@@ -84,7 +88,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
         formula_string = ""
         print(contributor)
         for i in formula_atoms:
-            if i in ("+", "-", "!="):
+            if i in ("+", "-", "!=", ">", "<"):
                 formula_string += i
             else:
                 formula_string += str(contributor["responses"][i]["response"])

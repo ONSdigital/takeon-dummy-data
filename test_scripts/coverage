@@ -2,11 +2,12 @@
 platform linux -- Python 3.6.8, pytest-5.0.1, py-1.8.0, pluggy-0.12.0
 rootdir: /home/ryan/Documents/project-repos/takeon/takeon_dummy_data
 plugins: cov-2.7.1
-collected 13 items
+collected 14 items
 
-test_scripts/test_assert_responses.py .....                              [ 38%]
-test_scripts/test_build_dummy_data.py ..                                 [ 53%]
-test_scripts/test_build_sum.py .                                         [ 61%]
+test_scripts/test_assert_responses.py .....                              [ 35%]
+test_scripts/test_build_dummy_data.py ..                                 [ 50%]
+test_scripts/test_build_sum.py .                                         [ 57%]
+test_scripts/test_multiple_validations.py .                              [ 64%]
 test_scripts/test_previous_period.py ...F.                               [100%]
 
 =================================== FAILURES ===================================
@@ -29,18 +30,19 @@ new month: 00
 new period: 202000
 
 ----------- coverage: platform linux, python 3.6.8-final-0 -----------
-Name                                    Stmts   Miss  Cover
------------------------------------------------------------
-__init__.py                                 0      0   100%
-previous_periods.py                        30      4    87%
-response_factory.py                        36      6    83%
-test_scripts/__init__.py                    0      0   100%
-test_scripts/test_assert_responses.py      25      0   100%
-test_scripts/test_build_dummy_data.py      13      0   100%
-test_scripts/test_build_sum.py              6      0   100%
-test_scripts/test_previous_period.py       21      0   100%
-validation_dungeon.py                      63      6    90%
------------------------------------------------------------
-TOTAL                                     194     16    92%
+Name                                        Stmts   Miss  Cover
+---------------------------------------------------------------
+__init__.py                                     0      0   100%
+previous_periods.py                            30      4    87%
+response_factory.py                            36      6    83%
+test_scripts/__init__.py                        0      0   100%
+test_scripts/test_assert_responses.py          25      0   100%
+test_scripts/test_build_dummy_data.py          13      0   100%
+test_scripts/test_build_sum.py                  6      0   100%
+test_scripts/test_multiple_validations.py       6      0   100%
+test_scripts/test_previous_period.py           21      0   100%
+validation_dungeon.py                          63      2    97%
+---------------------------------------------------------------
+TOTAL                                         200     12    94%
 
-===================== 1 failed, 12 passed in 0.08 seconds ======================
+===================== 1 failed, 13 passed in 0.08 seconds ======================

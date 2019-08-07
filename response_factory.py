@@ -3,6 +3,7 @@ import random
 
 class ContributorResponse:
     def __init__(self, form_data, start_reference, end_reference, period):
+        self.form_data = form_data
         self.form = json.loads(self.load_json(form_data))
         self.start_ref = start_reference
         self.end_ref = end_reference
