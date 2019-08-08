@@ -1,6 +1,6 @@
 from . import response_factory
 
-class PeriodOnPeriod(response_facory.ContributorResponse):
+class PeriodOnPeriod(response_factory.ContributorResponse):
 
     def b_search(self, match: int, search: list):
              mid_point = math.floor(len(search)/2)

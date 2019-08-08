@@ -1,10 +1,16 @@
 from . import response_factory
+from . import period_on_period as pop
 import json
+
 
 class ValidationDungeon(response_factory.ContributorResponse):
     '''
     Force the validations to yield the truth!
     '''
+    def __init__(self, form_data, start_reference, end_reference, period, seed=None): 
+        super().__init__(form_data, start_reference, end_reference, period)
+        self.pop_data = pop.PeriodOnPeriod(form_data, start_reference, end_reference, period, seed=10)
+
 
     def check_should_fail_status(self, contributor):
         for question in contributor["responses"].keys():
