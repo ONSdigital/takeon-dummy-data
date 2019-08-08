@@ -39,6 +39,9 @@ class ValidationDungeon(response_factory.ContributorResponse):
             if rule == "VP":
                 print("Running VP")
                 return self.make_vp_pass(contributor, question)
+            if rule == "POPM":
+                print("Running POPM")
+                return self.make_popm_pass(contributor, question)
 
     def discover_validations(self, q_code):
         '''
@@ -108,21 +111,22 @@ class ValidationDungeon(response_factory.ContributorResponse):
         primary = self.form["validations"]["POPM"]["primary_q_code"]
         comparison = self.form["validations"]["POPM"]["comparison_q_code"]
         # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
-        pop_data = self.pop.b_search(contributor["reference"], self.pop_data)
-        does_pass = eval(self.build_popm_sum(contributor, q_code))
+        pop_data = self.pop.b_search(contributor["reference"], self.pop_data, 0, len(self.pop_data))
+        print("Does it pass?")
+        does_pass = self.build_popm_sum(contributor, primary, comparison, pop_data[0])
+        print("Does it: {}".format(does_pass))
         formula_atoms = self.form["validations"]["POPM"]["formula"].split(" ")
-        if formula_atoms[1] == "!=" and not does_pass:
-            diff = contributor["responses"][primary] - pop_data[0]["responses"][comparison]
-            self.pop_data[pop_data[0]]["responses"][comparison] += diff
+        if not eval(does_pass):
+            self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"] 
         return contributor
 
+    def build_popm_sum(self, contributor, q_code, comparison, back_data):
+        formula_atoms = self.form["validations"]["POPM"]["formula"]
+        primary_response = contributor["responses"][q_code]["response"]
+        comparison = back_data["responses"][comparison]["response"]
+        print("{prime} {op} {comp}".format(primary_response, formula_atoms[1], comparison))
+        return "{prime} {op} {comp}".format(primary_response, formula_atoms[1], comparison)
+
     def output_back_data(self):
-        with open("/home/ryan/Documents", "w+") as file:
+        with open("/home/ryan/Documents/pp_data.json", "w+") as file:
             file.write(json.dumps(self.pop_data))
-
-
-
-        
-
-
-        
