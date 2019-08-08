@@ -99,6 +99,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
 
     def build_sum_for_popm(self, contributor):
         pass
+
         
 
 
