@@ -9,7 +9,8 @@ class ValidationDungeon(response_factory.ContributorResponse):
     '''
     def __init__(self, form_data, start_reference, end_reference, period, seed=None): 
         super().__init__(form_data, start_reference, end_reference, period)
-        self.pop_data = pop.PeriodOnPeriod(form_data, start_reference, end_reference, period, seed=10)
+        self.pop = pop.PeriodOnPeriod(form_data, start_reference, end_reference, period, seed=10)
+        self.pop_data = list(self.pop)
 
 
     def check_should_fail_status(self, contributor):
@@ -103,8 +104,15 @@ class ValidationDungeon(response_factory.ContributorResponse):
                 formula_string += str(contributor["responses"][i]["response"])
         return formula_string
 
-    def build_sum_for_popm(self, contributor):
-        pass
+    def make_popm_pass(self, contributor, q_code):
+        primary = self.form["validations"]["POPM"]["primary_q_code"]
+        comparison = self.form["validations"]["POPM"]["comparison_q_code"]
+        # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
+        pop_data = self.pop.b_search(contributor["reference"], self.pop_data)
+        does_pass = eval(self.build_popm_sum(contributor, q_code))
+
+
+
 
         
 
