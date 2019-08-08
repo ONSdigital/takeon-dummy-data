@@ -49,6 +49,9 @@ class ValidationDungeon(response_factory.ContributorResponse):
     def make_popm_pass(self, contributor, q_code):
         current_period = self.form["validation"]["POPM"]["current_period"]
         previous_period = self.form["validation"]["POPM"]["previous_period"]
+        previous_data = list(ContributorResponses(self.form_data, contributor["reference"]-1, contributor["reference"], previous_period))
+        previous_data = previous_data[0]
+
 
     def make_vp_pass(self, contributor, q_code):
         primary_q_code = contributor["responses"][q_code]["response"]
@@ -82,7 +85,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
                 current_largest = (contributor["responses"][i]["response"], i)
         return current_largest
 
-    def build_sum(self, contributor, rule):
+    def build_sum(self, contributor, rule, back_data=None):
         formula = self.form["validations"][rule]["formula"]
         formula_atoms = formula.split(" ")
         formula_string = ""
@@ -93,5 +96,10 @@ class ValidationDungeon(response_factory.ContributorResponse):
             else:
                 formula_string += str(contributor["responses"][i]["response"])
         return formula_string
+
+    def build_sum_for_popm(self, contributor):
+        pass
+        
+
 
         

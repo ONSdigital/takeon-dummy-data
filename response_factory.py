@@ -2,7 +2,7 @@ import json
 import random
 
 class ContributorResponse:
-    def __init__(self, form_data, start_reference, end_reference, period):
+    def __init__(self, form_data, start_reference, end_reference, period, seed=None):
         self.form_data = form_data
         self.form = json.loads(self.load_json(form_data))
         self.start_ref = start_reference
@@ -14,7 +14,10 @@ class ContributorResponse:
         self.question_codes = self.form["question_codes"]
         self.v_q_codes = self.form["validation_question_codes"]
         self.validations = self.form["validations"]
-        random.seed(20)
+        if seed is None:
+            random.seed(20)
+        else:
+            random.seed(seed)
 
     @staticmethod
     def load_json(data_location):
