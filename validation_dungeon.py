@@ -110,7 +110,15 @@ class ValidationDungeon(response_factory.ContributorResponse):
         # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
         pop_data = self.pop.b_search(contributor["reference"], self.pop_data)
         does_pass = eval(self.build_popm_sum(contributor, q_code))
+        formula_atoms = self.form["validations"]["POPM"]["formula"].split(" ")
+        if formula_atoms[1] == "!=" and not does_pass:
+            diff = contributor["responses"][primary] - pop_data[0]["responses"][comparison]
+            self.pop_data[pop_data[0]]["responses"][comparison] += diff
+        return contributor
 
+    def output_back_data(self):
+        with open("/home/ryan/Documents", "w+") as file:
+            file.write(json.dumps(self.pop_data))
 
 
 
