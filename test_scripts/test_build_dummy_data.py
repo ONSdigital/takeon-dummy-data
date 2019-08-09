@@ -8,10 +8,10 @@ def test_data_builds_correctly():
     test_outputs = {'form_id': '001',
                      'period': 202012,
                      'reference': 1235,
-                     'responses': {'Q146': {'response': 2775, 'should_fail': False},
-                     'Q201': {'response': 1663},
-                     'Q202': {'response': 5364},
-                     'Q203': {'response': 9387},
+                     'responses': {'Q146': {'response': 442, 'should_fail': True},
+                     'Q201': {'response': 1663, "should_fail": False},
+                     'Q202': {'response': 9387},
+                     'Q203': {'response': 2775},
                      'Q204': {'response': 2477, 'should_fail': False}},
                      'survey': '001'}
 

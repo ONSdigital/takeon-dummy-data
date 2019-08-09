@@ -12,5 +12,3 @@ class PeriodOnPeriod(response_factory.ContributorResponse):
                   return self.b_search(match, search, start, midpoint)
               else:
                   return self.b_search(match, search, midpoint, end)
-
-
