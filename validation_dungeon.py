@@ -112,21 +112,17 @@ class ValidationDungeon(response_factory.ContributorResponse):
         comparison = self.form["validations"]["POPM"]["comparison_q_code"]
         # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
         pop_data = self.pop.b_search(contributor["reference"], self.pop_data, 0, len(self.pop_data))
-        print("Does it pass?")
         does_pass = self.build_popm_sum(contributor, primary, comparison, pop_data[0])
-        print("Does it: {}".format(does_pass))
-        formula_atoms = self.form["validations"]["POPM"]["formula"].split(" ")
-        if not eval(does_pass):
-            self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"] 
+        self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"] 
         return contributor
 
     def build_popm_sum(self, contributor, q_code, comparison, back_data):
-        formula_atoms = self.form["validations"]["POPM"]["formula"]
+        formula_atoms = self.form["validations"]["POPM"]["formula"].split(" ")
         primary_response = contributor["responses"][q_code]["response"]
         comparison = back_data["responses"][comparison]["response"]
-        print("{prime} {op} {comp}".format(primary_response, formula_atoms[1], comparison))
-        return "{prime} {op} {comp}".format(primary_response, formula_atoms[1], comparison)
+        print("atoms: {}".format(formula_atoms))
+        return "{prime} {op} {comp}".format(prime=primary_response, op=formula_atoms[1], comp=comparison)
 
     def output_back_data(self):
         with open("/home/ryan/Documents/pp_data.json", "w+") as file:
-            file.write(json.dumps(self.pop_data))
+            file.write(json.dumps(self.pop_data, indent=4))
