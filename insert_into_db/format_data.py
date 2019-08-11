@@ -5,7 +5,7 @@ class FormatData:
 
     def search_dict(self, dict_to_search):
         for attribute in dict_to_search:
-            if type(dict_to_search[attribute]) is not type(dict()):
+            if type(dict_to_search[attribute]) is not type(dict()) and attribute not in self.attributes:
                 self.formatted_data[attribute] = dict_to_search[attribute]
             elif attribute in self.attributes:
                 continue

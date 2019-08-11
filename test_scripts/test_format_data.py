@@ -11,8 +11,11 @@ def test_dict_list():
 
 def test_search_dict_with_removed_attr():
     test_dict = {"test_1": [12,2,1,"Hi"], "should_fail": False}
-    assert FormatData(["should_fail"]).search_dict(test_dict) == test_dict
+    assert FormatData(["should_fail"]).search_dict(test_dict) == {"test_1": [12,2,1,"Hi"]}
     
+def test_search_dict_with_removed_attr_in_sub_dict():
+    test_dict = {"test_1": [12,2,1,"Hi"], "response":{"should_fail": False}}
+    assert FormatData(["should_fail"]).search_dict(test_dict) == {"test_1": [12,2,1,"Hi"]}
 
 def test_dict_sub_dict():
     test_dict = {"test_1": "Hello", "test_2":{"anAttribute": "Hello"}}
