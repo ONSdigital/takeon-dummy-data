@@ -1,5 +1,5 @@
-from . import response_factory
-from . import period_on_period as pop
+import response_factory
+import period_on_period as pop
 from numba import jit
 import json
 
@@ -121,8 +121,8 @@ class ValidationDungeon(response_factory.ContributorResponse):
         print("atoms: {}".format(formula_atoms))
         return "{prime} {op} {comp}".format(prime=primary_response, op=formula_atoms[1], comp=comparison)
 
-    def output_back_data(self):
-        with open("/home/ryan/Documents/pp_data.json", "w+") as file:
+    def output_back_data(self, location):
+        with open(location, "w+") as file:
             file.write(json.dumps(self.pop_data, indent=4))
 
     def extract_validations(self, contributor, q_code, rule):
