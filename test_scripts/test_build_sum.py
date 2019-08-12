@@ -1,6 +1,6 @@
 from .. import validation_dungeon
 
-data = "/home/ryan/form_data.json"
+data = "monthly_neutronium.json"
 
 def test_build_sum():
     validations = validation_dungeon.ValidationDungeon(data, 1000, 1001, 202012)

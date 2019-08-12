@@ -26,7 +26,7 @@ def test_make_qvdq_pass_smaller_sum():
     # In this test we look at the case where the sum of the Qcodes is LESS THAN the derived sum
 
 
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)        
     contributor = {"responses":{"Q204": {"response": 1200}, "Q201": {"response": 388}, "Q202": {"response": 401}, "Q203": {"response": 399}}}
     # Notice that 400 + 388 + 400 = 1188 != 1200
@@ -36,12 +36,12 @@ def test_discover_validations():
 
     # We need to discover all the validations that a particular qCode is associated with
 
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
     assert validations.discover_validations("Q204") == {"Q204": ["QVDQ"]}
 
 def test_check_failure_status():
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
 
     contributor = {'form_id': '001',
@@ -59,7 +59,7 @@ def test_check_failure_status():
 
 
 def test_find_largest():
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
 
     contributor = {'form_id': '001',
@@ -77,7 +77,7 @@ def test_find_largest():
     assert validations.find_largest_for_qvdq(contributor, valids["derived_q_codes"]) == (500, "Q203")
 
 def test_make_vp_pass():
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
 
     contributor = {'form_id': '001',

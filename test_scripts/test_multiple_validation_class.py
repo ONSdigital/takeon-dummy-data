@@ -1,7 +1,7 @@
 from .. import validation_dungeon
 
 def test_multiple_validations():
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
     contributor = {'form_id': '001',
                  'period': 202012,

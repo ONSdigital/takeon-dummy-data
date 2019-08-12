@@ -104,16 +104,17 @@ class ValidationDungeon(response_factory.ContributorResponse):
         return formula_string
 
     def make_popm_pass(self, contributor, q_code):
-        primary = self.form["validations"]["POPM"]["primary_q_code"]
-        comparison = self.form["validations"]["POPM"]["comparison_q_code"]
+        validation_dict = self.extract_validations(contributor, q_code, "POPM")
+        primary = validation_dict["primary_q_code"]
+        comparison = validation_dict["POPM"]["comparison_q_code"]
         # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
         pop_data = self.pop.b_search(contributor["reference"], self.pop_data, 0, len(self.pop_data))
-        does_pass = self.build_popm_sum(contributor, primary, comparison, pop_data[0])
+        does_pass = self.build_popm_sum(contributor, primary, comparison, pop_data[0], validation_dict)
         self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"] 
         return contributor
 
-    def build_popm_sum(self, contributor, q_code, comparison, back_data):
-        formula_atoms = self.form["validations"]["POPM"]["formula"].split(" ")
+    def build_popm_sum(self, contributor, q_code, comparison, back_data, validation_dict):
+        formula_atoms = validation_dict["formula"].split(" ")
         primary_response = contributor["responses"][q_code]["response"]
         comparison = back_data["responses"][comparison]["response"]
         print("atoms: {}".format(formula_atoms))
