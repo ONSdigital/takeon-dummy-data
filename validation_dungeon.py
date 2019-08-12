@@ -1,5 +1,6 @@
 from . import response_factory
 from . import period_on_period as pop
+from numba import jit
 import json
 
 
@@ -11,7 +12,6 @@ class ValidationDungeon(response_factory.ContributorResponse):
         super().__init__(form_data, start_reference, end_reference, period)
         self.pop = pop.PeriodOnPeriod(form_data, start_reference, end_reference, period, seed=10)
         self.pop_data = list(self.pop)
-
 
     def check_should_fail_status(self, contributor):
         for question in contributor["responses"].keys():
@@ -51,16 +51,11 @@ class ValidationDungeon(response_factory.ContributorResponse):
         '''
         validations = {q_code: []}
         for validation_name in self.validations.keys():
-            print(validation_name)
-            if self.validations[validation_name]["primary_q_code"] == q_code:
-                validations[q_code].append(validation_name)
+            for valid in self.validations[validation_name]:
+                print(validation_name)
+                if valid["primary_q_code"] == q_code:
+                    validations[q_code].append(validation_name)
         return validations
-
-    def make_popm_pass(self, contributor, q_code):
-        current_period = self.form["validation"]["POPM"]["current_period"]
-        previous_period = self.form["validation"]["POPM"]["previous_period"]
-        previous_data = list(ContributorResponses(self.form_data, contributor["reference"]-1, contributor["reference"], previous_period))
-        previous_data = previous_data[0]
 
 
     def make_vp_pass(self, contributor, q_code):
@@ -70,10 +65,11 @@ class ValidationDungeon(response_factory.ContributorResponse):
 
     def make_qvdq_pass(self, contributor, q_code):
         derived_response = contributor["responses"][q_code]["response"]
-        derived_q_codes = self.form["validations"]["QVDQ"]["derived_q_codes"]
-        validation_sum = eval(self.build_sum(contributor, "QVDQ"))
+        derived_q_codes = None
+        validation_dict = self.extract_validations(contributor, q_code, "QVDQ")
+        validation_sum = eval(self.build_sum(contributor, "QVDQ", validation_dict))
 
-        largest_value = self.find_largest_for_qvdq(contributor)
+        largest_value = self.find_largest_for_qvdq(contributor, validation_dict["derived_q_codes"])
 
         if validation_sum > int(derived_response):
             diff = int(derived_response) - validation_sum
@@ -84,19 +80,19 @@ class ValidationDungeon(response_factory.ContributorResponse):
         return contributor 
 
     
-    def find_largest_for_qvdq(self, contributor):
+    def find_largest_for_qvdq(self, contributor, derived_q_codes):
         '''
         find the largest value in the derived qcode set
         '''
-        derived_list = self.form["validations"]["QVDQ"]["derived_q_codes"]
+        derived_list = derived_q_codes
         current_largest = (contributor["responses"][derived_list[0]]["response"], derived_list[0])
         for i in derived_list[1:]:
             if int(contributor["responses"][i]["response"]) > int(current_largest[0]):
                 current_largest = (contributor["responses"][i]["response"], i)
         return current_largest
 
-    def build_sum(self, contributor, rule, back_data=None):
-        formula = self.form["validations"][rule]["formula"]
+    def build_sum(self, contributor, rule, validation_dict, back_data=None):
+        formula = validation_dict["formula"]
         formula_atoms = formula.split(" ")
         formula_string = ""
         print(contributor)
@@ -126,3 +122,9 @@ class ValidationDungeon(response_factory.ContributorResponse):
     def output_back_data(self):
         with open("/home/ryan/Documents/pp_data.json", "w+") as file:
             file.write(json.dumps(self.pop_data, indent=4))
+
+    def extract_validations(self, contributor, q_code, rule):
+    # Extract correct validation dict from an array of validations
+        for i in self.validations[rule]:
+            if i["primary_q_code"] == q_code:
+                return i

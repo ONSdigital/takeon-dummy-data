@@ -10,8 +10,9 @@ def test_multiple_validations():
                               'Q201': {'response': 500},
                               'Q202': {'response': 388},
                               'Q203': {'response': 400},
-                              'Q204': {'response': 1200, 'should_fail': False}},
-                'survey': '001'}
-    assert validations.check_should_fail_status(contributor)["responses"] == {'Q146': {'response': "", "should_fail": False }, 'Q201': {'response': 1212}, 'Q202': {'response': 388}, 'Q203': {'response': 400}, 'Q204': {'response': 1200, 'should_fail': False}}
+                              'Q204': {'response': 1200, 'should_fail': False},
+                              'Q205': {'response': 410, 'should_fail': False}},
+                 'survey': '001'}
+    assert validations.check_should_fail_status(contributor)["responses"] == {'Q146': {'response': "", "should_fail": False }, 'Q201': {'response': 1212}, 'Q202': {'response': 388}, 'Q203': {'response': 400}, 'Q204': {'response': 1200, 'should_fail': False}, 'Q205': {'response': '', 'should_fail': False}}
 
 
