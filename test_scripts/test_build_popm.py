@@ -25,5 +25,3 @@ def test_build_popm():
     validation_dict  = validations.extract_validations(contributor, "Q201", "POPM")
 
     assert validations.build_popm_sum(contributor, "Q201", "Q204", back_data, validation_dict) == "500 != 1200"
-
-
