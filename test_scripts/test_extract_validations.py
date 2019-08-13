@@ -1,7 +1,7 @@
 from .. import validation_dungeon
 
 def test_extract_validations():
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
 
     contributor = {'form_id': '001',
@@ -17,7 +17,7 @@ def test_extract_validations():
     assert validations.extract_validations(contributor, "Q204", "QVDQ") == { "derived_q_codes": ["Q201", "Q202", "Q203"], "primary_q_code": "Q204", "formula": "Q201 + Q202 - Q203"}
 
 def test_extract_validations_from_multiple():
-    data = "/home/ryan/form_data.json"
+    data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)
 
     contributor = {'form_id': '001',

@@ -14,6 +14,7 @@ class ContributorResponse:
         self.question_codes = self.form["question_codes"]
         self.v_q_codes = self.form["validation_question_codes"]
         self.validations = self.form["validations"]
+        self.fields = self.form["field_type"]
         if seed is None:
             random.seed(20)
         else:
@@ -31,10 +32,21 @@ class ContributorResponse:
         responses = {}
         for question in self.question_codes:
             if question in self.v_q_codes:
-                responses[question] = {"response": random.randint(0, 9999), "should_fail": True if random.randint(0,15) > 10 else False}
+                responses[question] = {"response": random.randint(0, 9999), "should_fail": True if random.randint(0,15) > 10 else False, "type": self.extract_field_type(question)}
             else:
-                responses[question] = {"response": random.randint(0, 9999)}
-        return responses
+                responses[question] = {"response": random.randint(0, 9999), "type": self.extract_field_type(question)}
+        return self.fix_field_values(responses)
+
+    def extract_field_type(self, question_code):
+        for field_type in self.fields:
+            if field_type["question_code"] == question_code:
+                return field_type["type"]
+    
+    def fix_field_values(self, response_data):
+        for question_code in response_data.keys():
+            if response_data[question_code]["type"] == "tickbox":
+                response_data[question_code]["response"] = random.choice([0, 1, 2])
+        return response_data
 
     def __iter__(self):
         return self
