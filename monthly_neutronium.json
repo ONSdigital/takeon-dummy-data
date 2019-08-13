@@ -3,12 +3,13 @@
 	"periodicity": "M",
 	"survey_code": "001",
 	"form_id":	"001",
-	"question_codes": ["Q204", "Q201", "Q202", "Q203","Q205" ,"Q146"],
+	"question_codes": ["Q204", "Q201", "Q202", "Q203", "Q205" ,"Q146"],
 	"validation_question_codes": ["Q204", "Q146", "Q201", "Q205"],
+	"field_type": [{"Q204": "Numeric"}, {"Q201": "Numeric"}, {"Q202": "Numeric"}, {"Q203": "Numeric"}, {"Q205": "Numeric"}, {"Q146": "Tickbox"}],
 	"validations":
 		{
 		"QVDQ": [{ "derived_q_codes": ["Q201", "Q202", "Q203"], "primary_q_code": "Q204", "formula": "Q201 + Q202 - Q203"}],
-		"POPM": [{ "current_period": "202012", "previous_period": "202011", "primary_q_code": "Q201", "comparison_q_code": "Q204", "formula": "Q201 != Q204"}],
+		"POPM": [{ "current_period": "202012", "previous_period": "202011", "primary_q_code": "Q201", "comparison_q_code": "Q204", "formula": ["Q201 != Q204", "abs(Q204-Q201)/Q201 > "]}],
 		"VP":	[{"primary_q_code": "Q146", "formula": "Q146 != \"\""}, {"primary_q_code": "Q205", "formula": "Q205 != \"\""}]
 
 		}

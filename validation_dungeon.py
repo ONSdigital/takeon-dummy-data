@@ -1,5 +1,5 @@
-import response_factory
-import period_on_period as pop
+from . import response_factory
+from . import period_on_period as pop
 from numba import jit
 import json
 

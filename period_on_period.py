@@ -1,4 +1,4 @@
-import response_factory
+from . import response_factory
 from numba import jit
 
 class PeriodOnPeriod(response_factory.ContributorResponse):
