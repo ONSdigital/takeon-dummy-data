@@ -10,18 +10,31 @@ class InsertData:
         self.data = data
         self.orm_class = orm_class
 
-    def insert(self):
-        session = self.session()
-        orm = self.orm_class()
-        for i in self.data.__dict__.keys():
-            orm.__dict__[i] = self.data.__dict__[i]
+    def build_mapped_class(self):
+        # Pass global class to local variable
+        orm = self.orm_class
+        for i in self.data:
+            # create local instance of class
+            orm_inst = orm()
+            for j in i.__dict__:
+                if j in ("end", "start"):
+                    pass
+                else:
+                    orm_inst.__dict__[j] = self.data.__dict__[j]
+            self.insert(orm_inst)
 
+
+    def insert(self, orm):
+        session = self.session()
         try:
-            print("Insert ORM: {}".format(type(orm)))
+            # print("Insert ORM: {}".format(orm.__dict__))
             session.add(orm)
             session.commit()
-            return "Data inserted"
+            session.close()
+            # return "Data inserted"
         except Exception as error:
             session.rollback()
+            session.close()
             print(error)
+
         

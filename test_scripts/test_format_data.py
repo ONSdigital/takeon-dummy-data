@@ -1,4 +1,4 @@
-from insert_into_db.format_data import FormatData
+from takeon_dummy_data.insert_into_db.format_data import FormatData
 
 def test_dict_one_attribute():
     test_dict = {"test_1": "Hello"}

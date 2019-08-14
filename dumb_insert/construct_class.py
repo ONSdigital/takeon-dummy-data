@@ -1,9 +1,8 @@
 from sqlalchemy import Column, String
 
 class ClassBuild:
-    def __init__(self, class_name, values, column_def, *inherits):
+    def __init__(self, class_name, column_def, *inherits):
         self.name = class_name
-        self.values = values
         self.inherits = inherits
         self.cols = column_def
     

@@ -55,6 +55,36 @@ sql_stmt = "CREATE TABLE contributor\
     LastUpdatedDate             int,              \
     PRIMARY KEY (reference, period, survey));"
 
+form_stmt = "CREATE TABLE form\
+(\
+    FormID              int UNIQUE NOT NULL,\
+    Survey              varchar(3) NOT NULL,\
+    Description         varchar(128) NOT NULL, \
+    PeriodStart         varchar(6) NOT NULL,\
+    PeriodEnd           varchar(6) NOT NULL,\
+    CreatedBy           varchar(16) NOT NULL,\
+    CreatedDate         int NOT NULL,\
+    LastUpdatedBy       varchar(16) NOT NULL,\
+    LastUpdatedDate     int NOT NULL,\
+\
+    PRIMARY KEY (FormID)\
+);"
+
+form_def_stmt = "CREATE TABLE form_definition\
+(\
+    FormID                  int NOT NULL,           \
+    QuestionCode            varchar(4) NOT NULL,           \
+    DisplayQuestionNumber   varchar(16) Not Null,       \
+    DisplayText             varchar(128) Not Null,      \
+    Type                    varchar(16) NOT NULL,       \
+    CreatedBy               varchar(16) NOT NULL,       \
+    CreatedDate             int NOT NULL, \
+    LastUpdatedBy           varchar(16) NOT NULL,       \
+    LastUpdatedDate         int NOT NULL, \
+\
+    PRIMARY KEY (FormID, QuestionCode)\
+ );"
+
 class Connect:
     def __init__(self, db_name):
         self.db = None
@@ -71,3 +101,5 @@ class Connect:
 connect = Connect("takeon_test")
 connect.create_db()
 connect.create_table(sql_stmt)
+connect.create_table(form_stmt)
+connect.create_table(form_def_stmt)
