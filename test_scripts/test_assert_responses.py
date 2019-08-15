@@ -1,4 +1,5 @@
 from .. import validation_dungeon
+import os
 
 '''
 def test_assert_qvdq_larger_sum():
@@ -25,7 +26,7 @@ def test_make_qvdq_pass_smaller_sum():
     # the responses to sum to Q204.
     # In this test we look at the case where the sum of the Qcodes is LESS THAN the derived sum
 
-
+    
     data = "monthly_neutronium.json"
     validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)        
     contributor = {"responses":{"Q204": {"response": 1200}, "Q201": {"response": 388}, "Q202": {"response": 401}, "Q203": {"response": 399}}}

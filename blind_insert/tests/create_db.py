@@ -85,6 +85,80 @@ form_def_stmt = "CREATE TABLE form_definition\
     PRIMARY KEY (FormID, QuestionCode)\
  );"
 
+survey_stmt = "CREATE TABLE survey\
+ (\
+     survey              varchar(4) Primary Key,\
+     description         varchar(128) Not Null,\
+     periodicity         varchar(32) Not Null,\
+     CreatedBy           varchar(16) Not Null,\
+     CreatedDate         int Not Null,\
+     LastUpdatedBy       varchar(16),\
+     LastUpdatedDate     int\
+);"
+
+question_stmt = "Create table dev01.Question\
+(\
+    Survey              varchar(4),\
+    QuestionCode        varchar(8) Not Null,\
+    CreatedBy           varchar(16) Not Null,\
+    CreatedDate         int Not Null,\
+    LastUpdatedBy       varchar(16),\
+    LastUpdatedDate     int,\
+\
+    Primary Key (Survey, QuestionCode)\
+);"
+
+response_stmt = "Create table Response\
+(\
+    Reference              char(11) Not Null,\
+    Period                 char(6) Not Null,\
+    Survey                 char(3) References,\
+    QuestionCode           char(4) Not Null,\
+    Instance               int Not Null,\
+    Response               varchar(256) Not Null,\
+    CreatedBy              varchar(16) Not Null,\
+    CreatedDate            int Not Null,\
+    LastUpdatedBy          varchar(16),\
+    LastUpdatedDate        int,\
+    Primary Key (Reference, Period, Survey, QuestionCode, Instance),\
+);"
+
+validation_stmt = "Create table ValidationRule\
+(\
+    Rule            varchar(16) Primary Key,\
+    Name            varchar(32) Not Null,\
+    BaseFormula     varchar(1024) Not Null,\
+    CreatedBy       varchar(16) Not Null,\
+    CreatedDate     int Not Null,\
+    LastUpdatedBy   varchar(16),\
+    LastUpdatedDate int\
+);"
+
+validation_period = "Create table ValidationPeriod\
+(\
+    Rule            varchar(16),\
+    PeriodOffset    int Not Null,\
+    CreatedBy       varchar(16) Not Null,\
+    CreatedDate     int Not Null,\
+    LastUpdatedBy   varchar(16),\
+    LastUpdatedDate int,\
+    Primary Key (Rule,PeriodOffset)\
+);"
+
+validation_form = "Create table ValidationForm\
+(\
+    ValidationID            INTEGER Primary Key,\
+    FormID                  int,\
+    Rule                    varchar(16),\
+    QuestionCode            varchar(4) Not Null,\
+    PreCalculationFormula   Varchar(256) Not Null,\
+    Severity                Varchar(16) Not Null,\
+    CreatedBy               Varchar(16) Not Null,\
+    CreatedDate             int Not Null,\
+    LastUpdatedBy           Varchar(16),\
+    LastUpdatedDate         int\
+);"
+
 class Connect:
     def __init__(self, db_name):
         self.db = None
@@ -98,8 +172,12 @@ class Connect:
         cursor = self.db.cursor()
         cursor.execute(sql_stmt)
 
-connect = Connect("takeon_test")
-connect.create_db()
-connect.create_table(sql_stmt)
-connect.create_table(form_stmt)
-connect.create_table(form_def_stmt)
+    def create(self):
+        # connect = Connect("takeon_test")
+        self.create_db()
+        self.create_table(sql_stmt)
+        self.create_table(form_stmt)
+        self.create_table(form_def_stmt)
+        self.create_table(validation_form)
+
+Connect("takeon_test").create()

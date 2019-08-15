@@ -1,4 +1,3 @@
-from dumb_insert.contributor import Contributor
 
 class FormatData:
     def __init__(self, attributes_to_remove):

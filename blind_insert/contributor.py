@@ -6,7 +6,7 @@ from construct_class import ClassBuild
 from sqlalchemy.ext.declarative import declarative_base
 
 class Contributor():
-    def __init__(self,Reference="",Period="",Survey="", start=0, end=10):
+    def __init__(self,Period="",Survey="", start=0, end=10):
         self.Reference = start
         # self.start = start
         self.end = end
@@ -80,7 +80,7 @@ class Contributor():
     def __len__(self):
         return self.end - self.Reference
 
-x = Contributor("100", "202012", "066", 499000000, 499001000)
+x = Contributor("202012", "066", 499000000, 49900002)
 table_metadata = Metadata(test_env=True, table_name="contributor", db_name="takeon_test")
 table_metadata.make_engine()
 table = table_metadata.get_table_data()
