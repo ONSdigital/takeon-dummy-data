@@ -80,7 +80,7 @@ class Contributor():
     def __len__(self):
         return self.end - self.Reference
 
-x = Contributor("202012", "066", 499000000, 49900002)
+x = Contributor("202012", "066", 499000000, 49900020)
 table_metadata = Metadata(test_env=True, table_name="contributor", db_name="takeon_test")
 table_metadata.make_engine()
 table = table_metadata.get_table_data()
@@ -88,7 +88,3 @@ base = declarative_base()
 constructed_class = ClassBuild("contributor", table, base).build_class()
 persist_data = InsertData("takeon_test", "contributor", x, constructed_class, test_env=True)
 persist_data.build_mapped_class()
-
-# print(len(x))
-# for i in x:
-#     print(i.__dict__)

@@ -45,7 +45,7 @@ class ContributorResponse:
     def fix_field_values(self, response_data):
         for question_code in response_data.keys():
             if response_data[question_code]["type"] == "tickbox":
-                response_data[question_code]["response"] = random.choice([0, 1, 2])
+                response_data[question_code]["response"] = random.choice([0, 1])
         return response_data
 
     def __iter__(self):
