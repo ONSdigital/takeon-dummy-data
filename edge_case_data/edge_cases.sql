@@ -170,7 +170,8 @@ Values
 (   '12345678023', '201712', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current period is blank and previous period > 0 and greater than threshold ) -  Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
 (   '12345678024', '201801', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current period is > 0 and greater than threshold and previous period is blank ) -  Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
 (   '12345678024', '201712', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current period is > 0 and greater than threshold and previous period is blank ) -  Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
-(   '12345678025', '201712', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current and previous periods > 0 and diff is > threshold) -  Not Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
+(   '12345678025', '201801', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current and previous periods > 0 and diff is > threshold) -  Not Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
+(   '12345678026', '201801', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current and previous periods > 0 and diff is > threshold) -  Not Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
 (   '12345678026', '201712', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'PoZC (Current and previous periods > 0 and diff is > threshold) -  Not Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
 (   '12345678030', '201801', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'QVDQ (both q and dq are 0) - Not Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
 (   '12345678031', '201801', '999A', 1, 'Status', 'now', '', '', '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0, '', '', 0, 'S', '', '', '', 0, 0, 0, '', '', '', '', '', 'QVDQ (both q and dq > 0 and Question != derived question) - Triggered', '', '', '', '', '', '', '', '', 'fisdba', now() ),
@@ -285,7 +286,7 @@ Values
 
     --QVDQ q and dq are blank
     ( '12345678034','201801','999A','1000',0,'',current_user,now()),
-    ( '12345678034','201801','999A','1001',0,'',current_user,now()), 
+    ( '12345678034','201801','999A','1001',0,'',current_user,now());
 
 
 -- Create table dev01.ValidationRule
