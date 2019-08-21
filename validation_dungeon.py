@@ -122,7 +122,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
         comparison = validation_dict["comparison_q_code"]
         # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
         pop_data = self.pop.b_search(contributor["reference"], self.pop_data, 0, len(self.pop_data))
-        does_pass = eval(self.build_popm_sum(contributor, primary, comparison, pop_data[0], validation_dict))
+        does_pass = eval(self.build_sum(contributor, "POPM", validation_dict, comparison=comparison, back_data=pop_data[0]))
         if not does_pass:
             self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"]
             print(self.pop_data[pop_data[1]]) 
