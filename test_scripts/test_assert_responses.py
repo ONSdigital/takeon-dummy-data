@@ -96,3 +96,7 @@ def test_make_vp_pass():
                               'Q203': {'response': 500},
                               'Q204': {'response': 1200, 'should_fail': False}}
 
+
+def test_make_popzc_pass():
+  data = "monthly_neutronium.json"
+  pass

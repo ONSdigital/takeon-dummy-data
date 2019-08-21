@@ -29,7 +29,14 @@ def test_dict_sub_dict():
     test_dict = {"test_1": "Hello", "test_2":{"anAttribute": "Hello"}}
     assert FormatData(["should_fail"]).search_dict(test_dict) == test_dict
 
+def test_dict_remove_att_in_sub_dict():
+    test_dict = {"test_1": "Hello", "test_2":{"anAttribute": "Hello", "should_fail": True}}
+    assert FormatData(["should_fail"]).search_dict(test_dict) == {"test_1": "Hello", "test_2":{"anAttribute": "Hello"}}
+
 def test_search_dict_sub_sub_dict():
     test_dict = {"test_1": "Hello", "test_2":{"anAttribute": "Hello", "someAt": {"AnotherAt":1}}}
     assert FormatData(["should_fail"]).search_dict(test_dict) == test_dict
  
+def test_search_dict_remove_sub_sub_dict():
+    test_dict = {"test_1": "Hello", "test_2":{"anAttribute": "Hello", "someAt": {"AnotherAt":1, "sub_dict":{"should_fail": 1, "B":2}}}}
+    assert FormatData(["should_fail"]).search_dict(test_dict) ==  {"test_1": "Hello", "test_2":{"anAttribute": "Hello", "someAt": {"AnotherAt":1, "sub_dict":{"B":2}}}}

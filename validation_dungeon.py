@@ -41,7 +41,10 @@ class ValidationDungeon(response_factory.ContributorResponse):
                 return self.make_vp_pass(contributor, question)
             if rule == "POPM":
                 print("Running POPM")
-                return self.make_popm_pass(contributor, question)
+                return self.make_popm_pass(contributor, question, rule)
+            if rule == "POPZC":
+                print("Running POPZC")
+                return self.make_popm_pass(contributor, question, rule)
 
     def discover_validations(self, q_code):
         '''
@@ -72,7 +75,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
         largest_value = self.find_largest_for_qvdq(contributor, validation_dict["derived_q_codes"])
 
         if validation_sum > int(derived_response):
-            diff = int(derived_response) - validation_sum
+            diff = validation_sum - int(derived_response)
             contributor["responses"][largest_value[1]]["response"] += diff
         elif int(derived_response) > validation_sum:
             diff = int(derived_response) - validation_sum
@@ -91,27 +94,38 @@ class ValidationDungeon(response_factory.ContributorResponse):
                 current_largest = (contributor["responses"][i]["response"], i)
         return current_largest
 
-    def build_sum(self, contributor, rule, validation_dict, back_data=None):
+    def build_sum(self, contributor, rule, validation_dict, back_data=None, comparison=None):
         formula = validation_dict["formula"]
         formula_atoms = formula.split(" ")
         formula_string = ""
         print(contributor)
-        for i in formula_atoms:
-            if i in ("+", "-", "!=", ">", "<"):
-                formula_string += i
-            else:
-                formula_string += str(contributor["responses"][i]["response"])
-        return formula_string
+        if isinstance(back_data, type(None)) and isinstance(comparison, type(None)):
+            for i in formula_atoms:
+                if i in ("+", "-", "!=", ">", "<", "|"):
+                    formula_string += i
+                else:
+                    formula_string += str(contributor["responses"][i]["response"])
+            return formula_string
+        else:
+            for i in formula_atoms:
+                if i in ("+", "-", "!=", ">", "<", "|"):
+                    formula_string += i
+                elif i in (comparison):
+                    formula_string += str(back_data["responses"][i]["response"])
+                else:
+                    formula_string += str(contributor["responses"][i]["response"])
+            return formula_string
 
-    def make_popm_pass(self, contributor, q_code):
-        validation_dict = self.extract_validations(contributor, q_code, "POPM")
+    def make_popm_pass(self, contributor, q_code, rule):
+        validation_dict = self.extract_validations(contributor, q_code, rule)
         primary = validation_dict["primary_q_code"]
         comparison = validation_dict["comparison_q_code"]
         # return tuple (CONTRIBUTOR_OBJECT, LIST_INDEX)
         pop_data = self.pop.b_search(contributor["reference"], self.pop_data, 0, len(self.pop_data))
         does_pass = eval(self.build_popm_sum(contributor, primary, comparison, pop_data[0], validation_dict))
-        self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"]
-        print(self.pop_data[pop_data[1]]) 
+        if not does_pass:
+            self.pop_data[pop_data[1]]["responses"][comparison]["response"] = contributor["responses"][primary]["response"]
+            print(self.pop_data[pop_data[1]]) 
         return contributor
 
     def build_popm_sum(self, contributor, q_code, comparison, back_data, validation_dict):
@@ -121,7 +135,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
         print("atoms: {}".format(formula_atoms))
         return "{prime} {op} {comp}".format(prime=primary_response, op=formula_atoms[1], comp=comparison)
 
-    def output_back_data(self, location, data):
+    def output_data(self, location, data):
         with open(location, "w+") as file:
             file.write(json.dumps(data, indent=4))
 
