@@ -67,4 +67,4 @@ def test_build_popzc_sum():
                 'survey': '001'}
 
     valids = validations.extract_validations(contributor, "Q203", "POPZC")
-    assert validations.build_sum(contributor, "POPZC", valids, back_data=back_data, comparison="Q205", threshold=11 ) == "400 != 145 and 400 - 145 > 11 "
+    assert validations.build_sum(contributor, "POPZC", valids, back_data=back_data, comparison="Q205", threshold=11 ) == "400 != 145 and ( 400 != 0 or 145 != 0 ) and 400 - 145 > 11 "

@@ -105,14 +105,14 @@ class ValidationDungeon(response_factory.ContributorResponse):
         print(contributor)
         if isinstance(back_data, type(None)) and isinstance(comparison, type(None)):
             for i in formula_atoms:
-                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS"):
+                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS", "(", ")", "0"):
                     formula_string += i + " "
                 else:
                     formula_string += str(contributor["responses"][i]["response"]) + " "
             return formula_string
         elif not isinstance(threshold, type(None)):
             for i in formula_atoms:
-                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS", threshold):
+                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS", threshold, "(", ")", "0"):
                     formula_string += i + " "
                 elif i in (comparison):
                     formula_string += str(back_data["responses"][i]["response"]) + " "
@@ -123,7 +123,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
             return formula_string
         else:
             for i in formula_atoms:
-                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS"):
+                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS", "(", ")", "0"):
                     formula_string += i + " "
                 elif i in (comparison):
                     formula_string += str(back_data["responses"][i]["response"]) + " "
@@ -152,7 +152,7 @@ class ValidationDungeon(response_factory.ContributorResponse):
 
     def output_data(self, location, data):
         with open(location, "w+") as file:
-            file.write(json.dumps(data, indent=4))
+            file.write(json.dumps(data, indent=2))
 
     def extract_validations(self, contributor, q_code, rule):
     # Extract correct validation dict from an array of validations
