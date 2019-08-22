@@ -123,6 +123,12 @@ def test_make_popm_pass():
     assert validations.pop_data[0]["responses"]["Q204"]["response"] == contributor["responses"]["Q201"]["response"]
 
 
+def test_assert_qvdq_smaller_sum_less_than_zero():
+  data = "monthly_neutronium.json"
+  validations = validation_dungeon.ValidationDungeon(data, 0, 1, 202012)        
+  contributor = {"responses":{"Q204": {"response": 15}, "Q201": {"response": 1}, "Q202": {"response": 2}, "Q203": {"response": 10}}}
+  assert validations.make_qvdq_pass(contributor, "Q204") == {"responses":{"Q204": {"response": 15}, "Q201": {"response": 1}, "Q202": {"response": 2}, "Q203": {"response": -12}}}
+
 def test_make_popzc_pass():
   data = "monthly_neutronium.json"
   pass

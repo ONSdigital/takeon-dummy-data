@@ -74,12 +74,16 @@ class ValidationDungeon(response_factory.ContributorResponse):
 
         largest_value = self.find_largest_for_qvdq(contributor, validation_dict["derived_q_codes"])
 
-        if validation_sum > int(derived_response):
+        if validation_sum > int(derived_response) and validation_sum > 0:
             diff = validation_sum - int(derived_response)
             contributor["responses"][largest_value[1]]["response"] += diff
-        elif int(derived_response) > validation_sum:
+        elif int(derived_response) > validation_sum and validation_sum > 0:
             diff = int(derived_response) - validation_sum
             contributor["responses"][largest_value[1]]["response"] += diff
+        elif validation_sum < int(derived_response) and validation_sum < 0:
+            diff = int(derived_response) - validation_sum
+            contributor["responses"][largest_value[1]]["response"] -= diff
+            # return self.make_qvdq_pass(contributor, q_code)
         return contributor 
 
     
@@ -94,26 +98,37 @@ class ValidationDungeon(response_factory.ContributorResponse):
                 current_largest = (contributor["responses"][i]["response"], i)
         return current_largest
 
-    def build_sum(self, contributor, rule, validation_dict, back_data=None, comparison=None):
+    def build_sum(self, contributor, rule, validation_dict, back_data=None, comparison=None, threshold=None):
         formula = validation_dict["formula"]
         formula_atoms = formula.split(" ")
         formula_string = ""
         print(contributor)
         if isinstance(back_data, type(None)) and isinstance(comparison, type(None)):
             for i in formula_atoms:
-                if i in ("+", "-", "!=", ">", "<", "|"):
-                    formula_string += i
+                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS"):
+                    formula_string += i + " "
                 else:
-                    formula_string += str(contributor["responses"][i]["response"])
+                    formula_string += str(contributor["responses"][i]["response"]) + " "
+            return formula_string
+        elif not isinstance(threshold, type(None)):
+            for i in formula_atoms:
+                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS", threshold):
+                    formula_string += i + " "
+                elif i in (comparison):
+                    formula_string += str(back_data["responses"][i]["response"]) + " "
+                elif i == str(threshold):
+                    formula_string += i + " "
+                else:
+                    formula_string += str(contributor["responses"][i]["response"]) + " "
             return formula_string
         else:
             for i in formula_atoms:
-                if i in ("+", "-", "!=", ">", "<", "|"):
-                    formula_string += i
+                if i in ("+", "-", "!=", ">", "<", "|", "AND", "and", "OR", "or", "abs", "ABS"):
+                    formula_string += i + " "
                 elif i in (comparison):
-                    formula_string += str(back_data["responses"][i]["response"])
+                    formula_string += str(back_data["responses"][i]["response"]) + " "
                 else:
-                    formula_string += str(contributor["responses"][i]["response"])
+                    formula_string += str(contributor["responses"][i]["response"]) + " "
             return formula_string
 
     def make_popm_pass(self, contributor, q_code, rule):

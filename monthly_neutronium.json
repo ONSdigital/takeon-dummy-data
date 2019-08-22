@@ -10,7 +10,8 @@
 		{
 		"QVDQ": [{ "derived_q_codes": ["Q201", "Q202", "Q203"], "primary_q_code": "Q204", "formula": "Q201 + Q202 - Q203"}],
 		"POPM": [{ "current_period": "202012", "previous_period": "202011", "primary_q_code": "Q201", "comparison_q_code": "Q204", "formula": "Q201 != Q204"}],
-		"VP":	[{"primary_q_code": "Q146", "formula": "Q146 != \"\""}, {"primary_q_code": "Q205", "formula": "Q205 != \"\""}]
+		"VP":	[{"primary_q_code": "Q146", "formula": "Q146 != \"\""}, {"primary_q_code": "Q205", "formula": "Q205 != \"\""}],
+		"POPZC": [{ "current_period": "202012", "previous_period": "202011", "primary_q_code": "Q203", "comparison_q_code": "Q205", "formula": "Q203 != Q205 and Q203 - Q205 > 11"}]
 
 		}
 }	
